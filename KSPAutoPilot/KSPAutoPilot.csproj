@@ -71,7 +71,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EventArgs.cs" />
+    <Compile Include="IKrpcHandler.cs" />
     <Compile Include="IKspEngine.cs" />
+    <Compile Include="KrpcHandler.cs" />
     <Compile Include="KspEngine.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

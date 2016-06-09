@@ -5,11 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KSPAutoPilot"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="393.559" Width="618.231">
     <Grid>
-        <TextBox x:Name="OrbitHeight" HorizontalAlignment="Left" Height="23" Margin="36,34,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="ButtonToOrbit" Content="Takeoff" HorizontalAlignment="Left" Margin="174,34,0,0" VerticalAlignment="Top" Width="75" Click="buttonToOrbit_Click"/>
-        <Button x:Name="ButtonChangeOrbit" Content="Change Orbit" HorizontalAlignment="Left" Margin="269,33,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBox x:Name="OrbitHeight" HorizontalAlignment="Left" Height="23" Margin="36,58,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="ButtonToOrbit" Content="Takeoff" HorizontalAlignment="Left" Margin="161,58,0,0" VerticalAlignment="Top" Width="75" Click="buttonToOrbit_Click"/>
+        <Button x:Name="ButtonChangeOrbit" Content="Change Orbit" HorizontalAlignment="Left" Margin="241,58,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="ButtonConnect" Content="Connect" HorizontalAlignment="Left" Margin="528,20,0,0" VerticalAlignment="Top" Width="75" Click="ButtonConnect_Click"/>
+        <Label x:Name="LabelStatus" Content="Disconnected" Margin="439,16,90,0" VerticalAlignment="Top"/>
+        <Label x:Name="LabelIpAddress" Content="IpAddress" Margin="24,15,526,0" VerticalAlignment="Top" RenderTransformOrigin="-0.065,0.431"/>
+        <TextBox x:Name="TextIpAddress" HorizontalAlignment="Left" Height="23" Margin="97,20,0,0" TextWrapping="Wrap" Text="192.168.1.73" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="LabelPort" Content="Port" HorizontalAlignment="Left" Margin="217,17,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.137,0.462"/>
+        <TextBox x:Name="TextPort" HorizontalAlignment="Left" Height="23" Margin="259,18,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="50"/>
+        <Label x:Name="LabelStream" Content="Stream" HorizontalAlignment="Left" Margin="314,17,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextStream" HorizontalAlignment="Left" Height="23" Margin="366,20,0,0" TextWrapping="Wrap" Text="1001" VerticalAlignment="Top" Width="48"/>
 
     </Grid>
 </Window>

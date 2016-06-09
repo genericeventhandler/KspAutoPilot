@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using KSPAutoPilot;
+using Rhino.Mocks;
+using KRPC.Client.Services.SpaceCenter;
 
 namespace KspAutoPilot.Tests
 {
@@ -10,24 +12,25 @@ namespace KspAutoPilot.Tests
         [TestMethod]
         public void IsActiveIsFalse()
         {
-            IKspEngine eng = new KspEngine(false);
+            var mock = MockRepository.Mock<IKrpcHandler>();
+            IKspEngine eng = new KspEngine(false, mock);
             Assert.IsFalse(eng.IsActive);
         }
 
         [TestMethod]
         public void Takeoff()
         {
-            IKspEngine eng = new KspEngine(false);
-            eng.TakeOff(85, x =>
-            {
-                Assert.AreEqual("Take off!", x);
-            });
+            var mock = MockRepository.Mock<IKrpcHandler>();
+            IKspEngine eng = new KspEngine(false, mock);
+            Action<string> messageHandler = x => Assert.AreEqual("Take off!", x);
+            eng.TakeOff(85, messageHandler);
         }
 
         [TestMethod]
         public void TakeoffAsync()
         {
-            IKspEngine eng = new KspEngine();
+            var mock = MockRepository.Mock<IKrpcHandler>();
+            IKspEngine eng = new KspEngine(mock);
             eng.TakeOff(100, x =>
             {
                 Assert.AreEqual("Take off!", x);

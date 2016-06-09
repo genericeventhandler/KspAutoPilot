@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KSPAutoPilot
@@ -10,37 +7,55 @@ namespace KSPAutoPilot
     {
         private readonly bool async;
 
-        private Task currentTask = null;
+        private readonly IKrpcHandler handler;
+        private Task currentTask;
 
-        public KspEngine()
+        public KspEngine(IKrpcHandler handler) : this(true, handler)
         {
-            this.async = true;
         }
 
-        public KspEngine(bool async)
+        public KspEngine(bool async, IKrpcHandler handler)
         {
             this.async = async;
+            this.handler = handler;
+            if (handler != null)
+            {
+                handler.Message += MessageFromHandler;
+            }
         }
 
         public bool IsActive { get; private set; }
-                
+
+        public string LastMessage { get; set; }
+
         public void TakeOff(int orbit, Action<string> updateInformation)
         {
             if (async)
             {
                 var t = Task.Factory.StartNew(() => TakeOffInternal(orbit, updateInformation));
                 SetCurrentTask(t);
-            } else
+            }
+            else
             {
                 TakeOffInternal(orbit, updateInformation);
             }
         }
 
-        private void TakeOffInternal(int orbit, Action<string> updateInformation)
+        public void WaitForTaskToEnd()
         {
-            if (updateInformation != null)
+            if (currentTask != null)
             {
-                updateInformation("Take off!");
+                currentTask.Wait();
+            }
+
+            this.IsActive = false;
+        }
+
+        private void MessageFromHandler(object sender, EventArgs<string> e)
+        {
+            if (sender != null && e != null)
+            {
+                this.LastMessage = e.Value;
             }
         }
 
@@ -50,14 +65,20 @@ namespace KSPAutoPilot
             this.IsActive = true;
         }
 
-        public void WaitForTaskToEnd()
+        private void TakeOffInternal(int orbit, Action<string> updateInformation)
         {
-            if(currentTask != null)
+            if(updateInformation == null)
             {
-                currentTask.Wait();
+                throw new ArgumentNullException(nameof(updateInformation));
             }
 
-            this.IsActive = false;
+            updateInformation("Take off!");
+
+            var vessel = handler.GetActiveVessel();
+            if (vessel != null)
+            {
+                updateInformation(vessel.Name);
+            }
         }
     }
 }

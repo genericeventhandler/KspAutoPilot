@@ -20,6 +20,8 @@ namespace KSPAutoPilot
     /// </summary>
     public partial class MainWindow : Window
     {
+        IKrpcHandler handler;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,7 +29,7 @@ namespace KSPAutoPilot
 
         private void buttonToOrbit_Click(object sender, RoutedEventArgs e)
         {
-            IKspEngine engine = new KspEngine();
+            IKspEngine engine = new KspEngine(handler);
             if (!engine.IsActive)
             {
                 var orbit = 85;
@@ -43,6 +45,20 @@ namespace KSPAutoPilot
         private void UpdateInformation(string message)
         {
             throw new NotImplementedException();
+        }
+
+        private void ButtonConnect_Click(object sender, RoutedEventArgs e)
+        {
+            if(handler == null)
+            {
+                int port = 1000;
+                int stream = 1000;
+                int.TryParse(TextPort.Text, out port);
+                int.TryParse(TextStream.Text, out stream);
+                handler = new KrpcHandler("AutoPilot", TextIpAddress.Text, port, stream);
+            }
+
+            LabelStatus.Content = handler.GetStatus();
         }
     }
 }
